@@ -1,13 +1,17 @@
-// Replace the placeholder values below with your Firebase web app config.
-// Firebase Console > Project settings > General > Your apps > SDK setup and configuration > Config
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-export const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY_HERE",
-  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCamMg9aoM0C77lHPJGgArCkU8mu0UZ48s",
+  authDomain: "ls2websites-d4d98.firebaseapp.com",
+  projectId: "ls2websites-d4d98",
+  storageBucket: "ls2websites-d4d98.firebasestorage.app",
+  messagingSenderId: "724008253918",
+  appId: "1:724008253918:web:0cff1b762566722a0c454f"
 };
 
-export const collectionName = "onlineSafetyCaseStudyResponses";
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
