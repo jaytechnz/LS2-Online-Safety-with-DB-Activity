@@ -15,8 +15,8 @@
   <main>
     <section class="teacher-note">
       <h2>Instructions</h2>
-      <p>Work in a small group. Read each case study, discuss the questions, and type your group summary into the text boxes. When you have finished, select <strong>Submit Group Responses</strong>.</p>
-      <p class="small-note">Your responses will be sent to the teacher summaries page.</p>
+      <p>Work in a small group. Read each case study, discuss the questions, and type your group summary into the text box.</p>
+      <p>Use the <strong>Next</strong> and <strong>Back</strong> buttons to move through the three case studies. Submit your answers after Case Study 3.</p>
     </section>
 
     <section class="group-details">
@@ -24,16 +24,13 @@
       <input type="text" id="groupName" placeholder="e.g. Group 1, Blue Team, Table 3">
     </section>
 
-    <form id="caseStudyForm">
+    <p class="progress" id="progressText">Case Study 1 of 3</p>
 
-      <article class="case-card blue">
+    <form id="caseStudyForm">
+      <article class="case-card blue active" data-step="1">
         <h2>Case Study 1: The Free Game Coins</h2>
-        <p>
-          Maya enjoys playing an online game with classmates. While she is playing, a player she does not know sends her a private message.
-        </p>
-        <blockquote>
-          “Hi Maya! I can give you free game coins. Click this website and log in with your game username and password. Don’t tell anyone because this is a secret offer.”
-        </blockquote>
+        <p>Maya enjoys playing an online game with classmates. While she is playing, a player she does not know sends her a private message.</p>
+        <blockquote>“Hi Maya! I can give you free game coins. Click this website and log in with your game username and password. Don’t tell anyone because this is a secret offer.”</blockquote>
         <h3>Discuss</h3>
         <ul>
           <li>What warning signs can you spot?</li>
@@ -44,11 +41,9 @@
         <textarea id="case1" placeholder="Type your group’s discussion summary here..."></textarea>
       </article>
 
-      <article class="case-card green">
+      <article class="case-card green" data-step="2">
         <h2>Case Study 2: The Class Collaboration File</h2>
-        <p>
-          A class is working on a shared online document for a school project. One student accidentally posts a screenshot that shows another student’s full name, email address, and a private comment from the teacher.
-        </p>
+        <p>A class is working on a shared online document for a school project. One student accidentally posts a screenshot that shows another student’s full name, email address, and a private comment from the teacher.</p>
         <h3>Discuss</h3>
         <ul>
           <li>Why might this be a privacy problem?</li>
@@ -59,11 +54,9 @@
         <textarea id="case2" placeholder="Type your group’s discussion summary here..."></textarea>
       </article>
 
-      <article class="case-card orange">
+      <article class="case-card orange" data-step="3">
         <h2>Case Study 3: The New Homework App</h2>
-        <p>
-          Noah finds a website that says it can help organise homework. Before he can use it, the website asks for his full name, date of birth, school name, home address, phone number, and permission to send notifications.
-        </p>
+        <p>Noah finds a website that says it can help organise homework. Before he can use it, the website asks for his full name, date of birth, school name, home address, phone number, and permission to send notifications.</p>
         <h3>Discuss</h3>
         <ul>
           <li>Which information is unnecessary or too private?</li>
@@ -75,7 +68,9 @@
       </article>
 
       <div class="button-row">
-        <button type="submit" id="submitButton">Submit Group Responses</button>
+        <button type="button" id="backButton" class="secondary" disabled>Back</button>
+        <button type="button" id="nextButton">Next</button>
+        <button type="submit" id="submitButton" class="submit-hidden">Submit Group Responses</button>
         <a class="button secondary" href="summaries.html">View Class Summaries</a>
         <button type="button" class="danger" id="clearThisGroup">Clear This Page</button>
       </div>

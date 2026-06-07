@@ -1,7 +1,4 @@
-Suggested Firestore rules for a short classroom activity.
-
-These allow anyone with the website link to submit and read responses.
-Use only for a controlled classroom activity.
+Temporary Firestore rules for this classroom activity.
 
 rules_version = '2';
 
@@ -15,5 +12,5 @@ service cloud.firestore {
   }
 }
 
-Safer option:
-After the lesson, change read/create to false so no more responses can be added or viewed publicly.
+Important:
+These are open classroom activity rules. After the lesson, change read/create to false.

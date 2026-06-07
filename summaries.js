@@ -2,9 +2,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/fireba
 import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 import { firebaseConfig, collectionName } from "./firebase-config.js";
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
 const container = document.getElementById("summaryContainer");
 
 function escapeHTML(text) {
@@ -22,47 +19,66 @@ function escapeHTML(text) {
 }
 
 function formatDate(timestamp) {
-  if (!timestamp || !timestamp.toDate) {
-    return "Just submitted";
-  }
+  if (!timestamp || !timestamp.toDate) return "Just submitted";
   return timestamp.toDate().toLocaleString();
 }
 
-const q = query(collection(db, collectionName), orderBy("submittedAt", "desc"));
+function showError(title, message) {
+  container.innerHTML = `
+    <div class="error-message">
+      <h2>${escapeHTML(title)}</h2>
+      <p><strong>Error:</strong> ${escapeHTML(message)}</p>
+      <p>Check that:</p>
+      <ul>
+        <li>your Firebase config has been pasted into <strong>firebase-config.js</strong></li>
+        <li>Firestore Database has been created</li>
+        <li>your Firestore rules allow read access for this activity</li>
+        <li>the site is being loaded from a web server, not opened directly as a file</li>
+      </ul>
+    </div>
+  `;
+}
 
-onSnapshot(q, function(snapshot) {
-  if (snapshot.empty) {
-    container.innerHTML = '<p class="empty-message">No group responses have been submitted yet.</p>';
-    return;
-  }
+try {
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const q = query(collection(db, collectionName), orderBy("submittedAt", "desc"));
 
-  container.innerHTML = snapshot.docs.map((doc) => {
-    const response = doc.data();
+  onSnapshot(q, function(snapshot) {
+    if (snapshot.empty) {
+      container.innerHTML = '<p class="empty-message">No group responses have been submitted yet.</p>';
+      return;
+    }
 
-    return `
-      <article class="summary-card">
-        <h2>${escapeHTML(response.groupName)}</h2>
-        <p><strong>Submitted:</strong> ${escapeHTML(formatDate(response.submittedAt))}</p>
+    container.innerHTML = snapshot.docs.map((doc) => {
+      const response = doc.data();
+      return `
+        <article class="summary-card">
+          <h2>${escapeHTML(response.groupName)}</h2>
+          <p><strong>Submitted:</strong> ${escapeHTML(formatDate(response.submittedAt))}</p>
 
-        <div class="response-block">
-          <h3>Case Study 1: The Free Game Coins</h3>
-          <p>${escapeHTML(response.case1)}</p>
-        </div>
+          <div class="response-block">
+            <h3>Case Study 1: The Free Game Coins</h3>
+            <p>${escapeHTML(response.case1)}</p>
+          </div>
 
-        <div class="response-block">
-          <h3>Case Study 2: The Class Collaboration File</h3>
-          <p>${escapeHTML(response.case2)}</p>
-        </div>
+          <div class="response-block">
+            <h3>Case Study 2: The Class Collaboration File</h3>
+            <p>${escapeHTML(response.case2)}</p>
+          </div>
 
-        <div class="response-block">
-          <h3>Case Study 3: The New Homework App</h3>
-          <p>${escapeHTML(response.case3)}</p>
-        </div>
-      </article>
-    `;
-  }).join("");
-
-}, function(error) {
+          <div class="response-block">
+            <h3>Case Study 3: The New Homework App</h3>
+            <p>${escapeHTML(response.case3)}</p>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }, function(error) {
+    console.error(error);
+    showError("Could not load Firebase responses", error.message);
+  });
+} catch (error) {
   console.error(error);
-  container.innerHTML = '<p class="empty-message">Could not load responses. Check your Firebase config and Firestore rules.</p>';
-});
+  showError("Firebase setup error", error.message);
+}
