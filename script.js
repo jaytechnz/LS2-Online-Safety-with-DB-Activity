@@ -1,5 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+  enableNetwork
+} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 import { firebaseConfig, collectionName } from "./firebase-config.js";
 
 const app = initializeApp(firebaseConfig);
@@ -8,99 +14,111 @@ const db = getFirestore(app);
 const form = document.getElementById("caseStudyForm");
 const clearThisGroup = document.getElementById("clearThisGroup");
 const submitButton = document.getElementById("submitButton");
-const nextButton = document.getElementById("nextButton");
-const backButton = document.getElementById("backButton");
 const statusMessage = document.getElementById("statusMessage");
-const progressText = document.getElementById("progressText");
 
-let currentStep = 1;
-const totalSteps = 3;
-
-function showStep(step) {
-  document.querySelectorAll(".case-card").forEach(card => card.classList.remove("active"));
-  document.querySelector(`[data-step="${step}"]`).classList.add("active");
-
-  progressText.textContent = `Case Study ${step} of ${totalSteps}`;
-  backButton.disabled = step === 1;
-
-  if (step === totalSteps) {
-    nextButton.style.display = "none";
-    submitButton.classList.remove("submit-hidden");
-    submitButton.classList.add("submit-visible");
-  } else {
-    nextButton.style.display = "inline-block";
-    submitButton.classList.add("submit-hidden");
-    submitButton.classList.remove("submit-visible");
-  }
-
-  statusMessage.textContent = "";
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function getAnswer(id) {
+  return document.getElementById(id).value.trim();
 }
 
-function currentSummaryIsComplete() {
-  return document.getElementById(`case${currentStep}`).value.trim().length > 0;
+function allAnswersComplete() {
+  for (let caseNumber = 1; caseNumber <= 3; caseNumber++) {
+    for (let questionNumber = 1; questionNumber <= 3; questionNumber++) {
+      if (getAnswer(`case${caseNumber}q${questionNumber}`).length === 0) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
-nextButton.addEventListener("click", function() {
-  if (!currentSummaryIsComplete()) {
-    statusMessage.textContent = "Please type your group summary before moving to the next case study.";
-    statusMessage.style.color = "#b91c1c";
-    return;
-  }
-  currentStep++;
-  showStep(currentStep);
-});
+function setStatus(message, colour) {
+  statusMessage.textContent = message;
+  statusMessage.style.color = colour;
+}
 
-backButton.addEventListener("click", function() {
-  currentStep--;
-  showStep(currentStep);
-});
+function withTimeout(promise, milliseconds) {
+  let timeoutId;
+
+  const timeoutPromise = new Promise((resolve, reject) => {
+    timeoutId = setTimeout(() => {
+      reject(new Error("The Firebase request timed out. This usually means Firestore is blocked, not created, the rules do not allow writing, or the Firebase config is incorrect."));
+    }, milliseconds);
+  });
+
+  return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeoutId));
+}
+
+function configLooksIncomplete() {
+  return Object.values(firebaseConfig).some(value =>
+    typeof value !== "string" ||
+    value.includes("PASTE_YOUR") ||
+    value.trim() === ""
+  );
+}
 
 form.addEventListener("submit", async function(event) {
   event.preventDefault();
 
-  const groupName = document.getElementById("groupName").value.trim();
-  const case1 = document.getElementById("case1").value.trim();
-  const case2 = document.getElementById("case2").value.trim();
-  const case3 = document.getElementById("case3").value.trim();
+  if (configLooksIncomplete()) {
+    setStatus("Firebase config is incomplete. Open firebase-config.js and replace all placeholder values.", "#b91c1c");
+    return;
+  }
 
-  if (!groupName || !case1 || !case2 || !case3) {
-    statusMessage.textContent = "Please enter a group name and complete all three summaries.";
-    statusMessage.style.color = "#b91c1c";
+  const groupName = getAnswer("groupName");
+
+  if (!groupName) {
+    setStatus("Please enter a group name.", "#b91c1c");
+    return;
+  }
+
+  if (!allAnswersComplete()) {
+    setStatus("Please answer all three questions for all three case studies.", "#b91c1c");
     return;
   }
 
   submitButton.disabled = true;
-  statusMessage.textContent = "Submitting responses...";
-  statusMessage.style.color = "#1d4ed8";
+  setStatus("Submitting responses...", "#1d4ed8");
+
+  const responseData = {
+    groupName,
+    case1: {
+      q1: getAnswer("case1q1"),
+      q2: getAnswer("case1q2"),
+      q3: getAnswer("case1q3")
+    },
+    case2: {
+      q1: getAnswer("case2q1"),
+      q2: getAnswer("case2q2"),
+      q3: getAnswer("case2q3")
+    },
+    case3: {
+      q1: getAnswer("case3q1"),
+      q2: getAnswer("case3q2"),
+      q3: getAnswer("case3q3")
+    },
+    userAgent: navigator.userAgent,
+    submittedAt: serverTimestamp(),
+    submittedAtLocal: new Date().toLocaleString()
+  };
 
   try {
-    await addDoc(collection(db, collectionName), {
-      groupName,
-      case1,
-      case2,
-      case3,
-      submittedAt: serverTimestamp()
-    });
+    await withTimeout(enableNetwork(db), 8000);
+    await withTimeout(addDoc(collection(db, collectionName), responseData), 12000);
 
-    statusMessage.textContent = "Responses submitted successfully.";
-    statusMessage.style.color = "#166534";
+    setStatus("Responses submitted successfully. Opening summaries page...", "#166534");
 
     setTimeout(() => {
       window.location.href = "summaries.html";
-    }, 800);
+    }, 700);
+
   } catch (error) {
-    console.error(error);
-    statusMessage.textContent = `There was a problem submitting the responses: ${error.message}`;
-    statusMessage.style.color = "#b91c1c";
+    console.error("Firebase submit error:", error);
+    setStatus(`Submission failed: ${error.message}`, "#b91c1c");
     submitButton.disabled = false;
   }
 });
 
 clearThisGroup.addEventListener("click", function() {
   form.reset();
-  currentStep = 1;
-  showStep(currentStep);
+  setStatus("", "#1f2937");
 });
-
-showStep(currentStep);

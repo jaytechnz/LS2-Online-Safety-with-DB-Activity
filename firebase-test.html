@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Connection Test</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="firebase-test.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <h1>Firebase Connection Test</h1>
+    <p>Use this page to check whether Firestore is working.</p>
+  </header>
+
+  <main>
+    <section class="teacher-note">
+      <h2>Test Firestore</h2>
+      <p>This writes one small test document to Firestore and then tries to read it back.</p>
+      <div class="button-row">
+        <button id="runTest">Run Firebase Test</button>
+        <a class="button secondary" href="index.html">Back to Activity</a>
+      </div>
+      <p id="testStatus" class="status-message">Test not run yet.</p>
+    </section>
+
+    <section class="teacher-note">
+      <h2>Most Common Causes</h2>
+      <ul>
+        <li><strong>Firestore Database</strong> has not been created.</li>
+        <li>The project has <strong>Realtime Database</strong> instead of <strong>Firestore Database</strong>.</li>
+        <li><strong>firebase-config.js</strong> still contains placeholder values.</li>
+        <li>Firestore rules do not allow <strong>create</strong> and <strong>read</strong>.</li>
+        <li>The site is opened as a local <strong>file:///</strong> page instead of from GitHub Pages, Firebase Hosting, Netlify, or another web host.</li>
+        <li>A school network filter is blocking Firebase.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

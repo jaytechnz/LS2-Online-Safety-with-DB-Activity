@@ -15,8 +15,8 @@
   <main>
     <section class="teacher-note">
       <h2>Instructions</h2>
-      <p>Work in a small group. Read each case study, discuss the questions, and type your group summary into the text box.</p>
-      <p>Use the <strong>Next</strong> and <strong>Back</strong> buttons to move through the three case studies. Submit your answers after Case Study 3.</p>
+      <p>Work in a small group. Read each case study, discuss the questions, and type your group answers into the text boxes.</p>
+      <p>Complete all three case studies on this page, then select <strong>Submit Group Responses</strong>.</p>
     </section>
 
     <section class="group-details">
@@ -24,53 +24,76 @@
       <input type="text" id="groupName" placeholder="e.g. Group 1, Blue Team, Table 3">
     </section>
 
-    <p class="progress" id="progressText">Case Study 1 of 3</p>
-
     <form id="caseStudyForm">
-      <article class="case-card blue active" data-step="1">
+      <article class="case-card blue">
         <h2>Case Study 1: The Free Game Coins</h2>
         <p>Maya enjoys playing an online game with classmates. While she is playing, a player she does not know sends her a private message.</p>
         <blockquote>“Hi Maya! I can give you free game coins. Click this website and log in with your game username and password. Don’t tell anyone because this is a secret offer.”</blockquote>
-        <h3>Discuss</h3>
-        <ul>
-          <li>What warning signs can you spot?</li>
-          <li>What private information is being asked for?</li>
-          <li>What should Maya do next?</li>
-        </ul>
-        <label for="case1"><strong>Group summary:</strong></label>
-        <textarea id="case1" placeholder="Type your group’s discussion summary here..."></textarea>
+
+        <div class="question-grid">
+          <div class="question-box">
+            <label for="case1q1"><strong>1. What warning signs can you spot?</strong></label>
+            <textarea id="case1q1" placeholder="Type your group’s answer here..."></textarea>
+          </div>
+
+          <div class="question-box">
+            <label for="case1q2"><strong>2. What private information is being asked for?</strong></label>
+            <textarea id="case1q2" placeholder="Type your group’s answer here..."></textarea>
+          </div>
+
+          <div class="question-box">
+            <label for="case1q3"><strong>3. What should Maya do next?</strong></label>
+            <textarea id="case1q3" placeholder="Type your group’s answer here..."></textarea>
+          </div>
+        </div>
       </article>
 
-      <article class="case-card green" data-step="2">
+      <article class="case-card green">
         <h2>Case Study 2: The Class Collaboration File</h2>
         <p>A class is working on a shared online document for a school project. One student accidentally posts a screenshot that shows another student’s full name, email address, and a private comment from the teacher.</p>
-        <h3>Discuss</h3>
-        <ul>
-          <li>Why might this be a privacy problem?</li>
-          <li>What should the student do after noticing the mistake?</li>
-          <li>How could the class avoid this happening again?</li>
-        </ul>
-        <label for="case2"><strong>Group summary:</strong></label>
-        <textarea id="case2" placeholder="Type your group’s discussion summary here..."></textarea>
+
+        <div class="question-grid">
+          <div class="question-box">
+            <label for="case2q1"><strong>1. Why might this be a privacy problem?</strong></label>
+            <textarea id="case2q1" placeholder="Type your group’s answer here..."></textarea>
+          </div>
+
+          <div class="question-box">
+            <label for="case2q2"><strong>2. What should the student do after noticing the mistake?</strong></label>
+            <textarea id="case2q2" placeholder="Type your group’s answer here..."></textarea>
+          </div>
+
+          <div class="question-box">
+            <label for="case2q3"><strong>3. How could the class avoid this happening again?</strong></label>
+            <textarea id="case2q3" placeholder="Type your group’s answer here..."></textarea>
+          </div>
+        </div>
       </article>
 
-      <article class="case-card orange" data-step="3">
+      <article class="case-card orange">
         <h2>Case Study 3: The New Homework App</h2>
         <p>Noah finds a website that says it can help organise homework. Before he can use it, the website asks for his full name, date of birth, school name, home address, phone number, and permission to send notifications.</p>
-        <h3>Discuss</h3>
-        <ul>
-          <li>Which information is unnecessary or too private?</li>
-          <li>What could Noah do before signing up?</li>
-          <li>What makes a website or app safer to use?</li>
-        </ul>
-        <label for="case3"><strong>Group summary:</strong></label>
-        <textarea id="case3" placeholder="Type your group’s discussion summary here..."></textarea>
+
+        <div class="question-grid">
+          <div class="question-box">
+            <label for="case3q1"><strong>1. Which information is unnecessary or too private?</strong></label>
+            <textarea id="case3q1" placeholder="Type your group’s answer here..."></textarea>
+          </div>
+
+          <div class="question-box">
+            <label for="case3q2"><strong>2. What could Noah do before signing up?</strong></label>
+            <textarea id="case3q2" placeholder="Type your group’s answer here..."></textarea>
+          </div>
+
+          <div class="question-box">
+            <label for="case3q3"><strong>3. What makes a website or app safer to use?</strong></label>
+            <textarea id="case3q3" placeholder="Type your group’s answer here..."></textarea>
+          </div>
+        </div>
       </article>
 
       <div class="button-row">
-        <button type="button" id="backButton" class="secondary" disabled>Back</button>
-        <button type="button" id="nextButton">Next</button>
-        <button type="submit" id="submitButton" class="submit-hidden">Submit Group Responses</button>
+        <button type="submit" id="submitButton">Submit Group Responses</button>
         <a class="button secondary" href="summaries.html">View Class Summaries</a>
         <button type="button" class="danger" id="clearThisGroup">Clear This Page</button>
       </div>
