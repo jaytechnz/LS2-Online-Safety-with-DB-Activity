@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Online Safety and Privacy Case Studies</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="script.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <h1>Online Safety and Privacy</h1>
+    <p>Small Group Case Study Activity</p>
+  </header>
+
+  <main>
+    <section class="teacher-note">
+      <h2>Instructions</h2>
+      <p>Work in a small group. Read each case study, discuss the questions, and type your group summary into the text boxes. When you have finished, select <strong>Submit Group Responses</strong>.</p>
+      <p class="small-note">Your responses will be sent to the teacher summaries page.</p>
+    </section>
+
+    <section class="group-details">
+      <label for="groupName"><strong>Group name:</strong></label>
+      <input type="text" id="groupName" placeholder="e.g. Group 1, Blue Team, Table 3">
+    </section>
+
+    <form id="caseStudyForm">
+
+      <article class="case-card blue">
+        <h2>Case Study 1: The Free Game Coins</h2>
+        <p>
+          Maya enjoys playing an online game with classmates. While she is playing, a player she does not know sends her a private message.
+        </p>
+        <blockquote>
+          “Hi Maya! I can give you free game coins. Click this website and log in with your game username and password. Don’t tell anyone because this is a secret offer.”
+        </blockquote>
+        <h3>Discuss</h3>
+        <ul>
+          <li>What warning signs can you spot?</li>
+          <li>What private information is being asked for?</li>
+          <li>What should Maya do next?</li>
+        </ul>
+        <label for="case1"><strong>Group summary:</strong></label>
+        <textarea id="case1" placeholder="Type your group’s discussion summary here..."></textarea>
+      </article>
+
+      <article class="case-card green">
+        <h2>Case Study 2: The Class Collaboration File</h2>
+        <p>
+          A class is working on a shared online document for a school project. One student accidentally posts a screenshot that shows another student’s full name, email address, and a private comment from the teacher.
+        </p>
+        <h3>Discuss</h3>
+        <ul>
+          <li>Why might this be a privacy problem?</li>
+          <li>What should the student do after noticing the mistake?</li>
+          <li>How could the class avoid this happening again?</li>
+        </ul>
+        <label for="case2"><strong>Group summary:</strong></label>
+        <textarea id="case2" placeholder="Type your group’s discussion summary here..."></textarea>
+      </article>
+
+      <article class="case-card orange">
+        <h2>Case Study 3: The New Homework App</h2>
+        <p>
+          Noah finds a website that says it can help organise homework. Before he can use it, the website asks for his full name, date of birth, school name, home address, phone number, and permission to send notifications.
+        </p>
+        <h3>Discuss</h3>
+        <ul>
+          <li>Which information is unnecessary or too private?</li>
+          <li>What could Noah do before signing up?</li>
+          <li>What makes a website or app safer to use?</li>
+        </ul>
+        <label for="case3"><strong>Group summary:</strong></label>
+        <textarea id="case3" placeholder="Type your group’s discussion summary here..."></textarea>
+      </article>
+
+      <div class="button-row">
+        <button type="submit" id="submitButton">Submit Group Responses</button>
+        <a class="button secondary" href="summaries.html">View Class Summaries</a>
+        <button type="button" class="danger" id="clearThisGroup">Clear This Page</button>
+      </div>
+
+      <p id="statusMessage" class="status-message"></p>
+    </form>
+  </main>
+</body>
+</html>

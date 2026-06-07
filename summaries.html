@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Class Summaries - Online Safety and Privacy</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="summaries.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <h1>Class Summaries</h1>
+    <p>Online Safety and Privacy Case Studies</p>
+  </header>
+
+  <main>
+    <section class="teacher-note no-print">
+      <h2>Teacher Display Page</h2>
+      <p>This page reads group responses from Firebase Firestore. Use the print button to print or save as PDF.</p>
+      <div class="button-row">
+        <button onclick="window.print()">Print / Save as PDF</button>
+        <a class="button secondary" href="index.html">Back to Case Studies</a>
+      </div>
+      <p class="small-note">Tip: In your browser print window, choose <strong>Save as PDF</strong> if you want a PDF file.</p>
+    </section>
+
+    <section id="summaryContainer" class="summary-container">
+      <p class="empty-message">Loading group responses...</p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,19 @@
+Suggested Firestore rules for a short classroom activity.
+
+These allow anyone with the website link to submit and read responses.
+Use only for a controlled classroom activity.
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /onlineSafetyCaseStudyResponses/{docId} {
+      allow create: if true;
+      allow read: if true;
+      allow update, delete: if false;
+    }
+  }
+}
+
+Safer option:
+After the lesson, change read/create to false so no more responses can be added or viewed publicly.
