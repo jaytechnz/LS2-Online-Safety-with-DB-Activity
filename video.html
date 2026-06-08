@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Checkpoint | Safety Lab</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="video">
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="index.html" aria-label="Safety Lab home">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span>Safety Lab</span>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="share.html">Share</a>
+        <a class="nav-link" href="passwords.html">Passwords</a>
+        <a class="nav-link active" href="video.html">Video</a>
+        <a class="nav-link" href="scenarios.html">Scenarios</a>
+        <a class="nav-link" href="toolkit.html">Toolkit</a>
+        <a class="nav-link" href="case-studies.html">Case Studies</a>
+        <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="true">Sound on</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-main">
+    <section class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <div>
+            <p class="kicker">Video checkpoint</p>
+            <h1 class="page-title">Watch, Spot, Decide</h1>
+            <p>Watch the video from 2:08, then identify the safety advice and choose what a student should do next.</p>
+          </div>
+          <div class="score-pill"><span id="videoScore">0</span>/3 tasks</div>
+        </div>
+
+        <div class="video-layout">
+          <div class="panel">
+            <div class="video-frame">
+              <iframe
+                src="https://www.youtube.com/embed/aO858HyFbKI?start=128"
+                title="Online safety video activity"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
+            <p class="inline-feedback">After watching, complete the three tasks below. The goal is to explain the safety thinking, not just remember exact words.</p>
+          </div>
+
+          <aside class="feedback" id="videoFeedback" aria-live="polite">
+            <h3>Video mission</h3>
+            <p>Look for clues about private information, suspicious messages, and asking for help before acting.</p>
+          </aside>
+        </div>
+
+        <div class="tool-grid video-tasks">
+          <div class="tool-panel">
+            <h3>Spot three safety ideas</h3>
+            <p>Select the ideas you noticed in the video.</p>
+            <div class="spot-list" id="videoChecklist">
+              <button class="chip" type="button" data-correct="true">Keep personal details private</button>
+              <button class="chip" type="button" data-correct="true">Check before clicking links</button>
+              <button class="chip" type="button" data-correct="true">Tell a trusted adult</button>
+              <button class="chip" type="button" data-correct="false">Share passwords with friends</button>
+            </div>
+            <p class="inline-feedback" id="videoChecklistFeedback" aria-live="polite">Find the three helpful safety ideas.</p>
+          </div>
+
+          <div class="tool-panel">
+            <h3>Best next step</h3>
+            <p>If an unknown message asks you to click a link and enter details, what should you do?</p>
+            <div class="password-list" id="videoQuiz">
+              <button class="scenario-action" type="button" data-correct="false">Click quickly before it expires</button>
+              <button class="scenario-action" type="button" data-correct="true">Stop, close it, and ask a trusted adult</button>
+              <button class="scenario-action" type="button" data-correct="false">Send it to classmates</button>
+            </div>
+            <p class="inline-feedback" id="videoQuizFeedback" aria-live="polite">Choose the safest action.</p>
+          </div>
+
+          <div class="tool-panel">
+            <h3>Exit sentence</h3>
+            <p>Write one sentence you could say if something online feels suspicious.</p>
+            <textarea id="videoReflection" placeholder="I would... because..."></textarea>
+            <div class="response-tools">
+              <button class="button primary" id="checkVideoReflection" type="button">Check sentence</button>
+            </div>
+            <p class="inline-feedback" id="videoReflectionFeedback" aria-live="polite">Use words like stop, ask, block, report, private, or trusted adult.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <a class="button" href="scenarios.html">Next: Scenarios</a>
+      <p>Pause before you click, share, or reply.</p>
+    </div>
+  </footer>
+
+  <script src="scripts/app.js"></script>
+</body>
+</html>
