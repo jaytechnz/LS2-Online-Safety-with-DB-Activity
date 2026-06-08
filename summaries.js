@@ -1,3 +1,5 @@
+import { requireRole, renderAuthBar } from "./auth-utils.js";
+
 const container = document.getElementById("summaryContainer");
 const pdfButton = document.getElementById("printPdfButton");
 const reloadButton = document.getElementById("reloadResponsesButton");
@@ -37,15 +39,13 @@ function setStatus(message, colour = "#475569") {
 
 function escapeHTML(text) {
   if (!text) return "";
-  return String(text).replace(/[&<>"']/g, function(match) {
-    return {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    }[match];
-  });
+  return String(text).replace(/[&<>"']/g, (match) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[match]);
 }
 
 function formatDate(timestamp, fallback) {
@@ -58,7 +58,6 @@ function withTimeout(promise, milliseconds, message) {
   const timeoutPromise = new Promise((resolve, reject) => {
     timeoutId = setTimeout(() => reject(new Error(message)), milliseconds);
   });
-
   return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeoutId));
 }
 
@@ -70,15 +69,8 @@ function showError(title, message) {
     <div class="error-message">
       <h2>${escapeHTML(title)}</h2>
       <p><strong>Error:</strong> ${escapeHTML(message)}</p>
-      <p>Check that:</p>
-      <ul>
-        <li><strong>firebase-config.js</strong>, <strong>summaries.js</strong>, and <strong>summaries.html</strong> have all been uploaded.</li>
-        <li><strong>firebase-config.js</strong> exports <strong>firebaseConfig</strong> and <strong>collectionName</strong>.</li>
-        <li>Firestore Database has been created in Firebase Console.</li>
-        <li>The Firestore rules in <strong>firestore-rules.txt</strong> have been pasted/deployed in Firebase Console.</li>
-        <li>The site is loaded from GitHub Pages or another web server, not opened as a local file.</li>
-      </ul>
-      <p>Use <strong>firebase-test.html</strong> to test writing and reading one document.</p>
+      <p>Check that Firebase Auth is enabled, Firestore rules are deployed, and the current account is a CGA teacher or superadmin.</p>
+      <p>Superadmin: <strong>j.smith@cga.school</strong></p>
     </div>
   `;
 }
@@ -120,6 +112,7 @@ function renderResponse(response) {
     <article class="summary-card">
       <h2>${escapeHTML(response.groupName)}</h2>
       <p><strong>Submitted:</strong> ${escapeHTML(formatDate(response.submittedAt, response.submittedAtLocal))}</p>
+      <p><strong>Submitted by:</strong> ${escapeHTML(response.submittedByEmail || "Unknown")}</p>
       ${renderCaseBlock(caseTitles.case1, "case1", response.case1)}
       ${renderCaseBlock(caseTitles.case2, "case2", response.case2)}
       ${renderCaseBlock(caseTitles.case3, "case3", response.case3)}
@@ -139,7 +132,6 @@ function wrapText(text, maxLength = 92) {
   const words = normalisePdfText(text).split(/\s+/).filter(Boolean);
   const lines = [];
   let line = "";
-
   words.forEach((word) => {
     const next = line ? `${line} ${word}` : word;
     if (next.length > maxLength && line) {
@@ -149,7 +141,6 @@ function wrapText(text, maxLength = 92) {
       line = next;
     }
   });
-
   if (line) lines.push(line);
   return lines.length ? lines : [""];
 }
@@ -159,12 +150,13 @@ function pdfEscape(text) {
 }
 
 function buildPdfLines() {
-  const lines = ["Online Safety and Privacy - Class Responses", ""];
+  const lines = ["Online Safety and Privacy - Teacher Dashboard Responses", ""];
 
   loadedResponses.forEach((response, index) => {
     if (index > 0) lines.push("", "----------------------------------------", "");
     lines.push(response.groupName || `Group ${index + 1}`);
     lines.push(`Submitted: ${formatDate(response.submittedAt, response.submittedAtLocal)}`);
+    lines.push(`Submitted by: ${response.submittedByEmail || "Unknown"}`);
 
     ["case1", "case2", "case3"].forEach((caseKey) => {
       const caseData = response[caseKey] || {};
@@ -235,49 +227,46 @@ function createPdfBlob(lines) {
 
 function downloadResponsesPdf() {
   if (loadedResponses.length === 0) {
-    setStatus("No group submissions have loaded yet, so there is nothing to save as PDF.", "#b91c1c");
+    setStatus("No student submissions have loaded yet, so there is nothing to save as PDF.", "#b91c1c");
     return;
   }
-
   const blob = createPdfBlob(buildPdfLines());
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "online-safety-class-responses.pdf";
+  link.download = "online-safety-student-responses.pdf";
   document.body.appendChild(link);
   link.click();
   link.remove();
   URL.revokeObjectURL(url);
-  setStatus(`Downloaded PDF with ${loadedResponses.length} group submission${loadedResponses.length === 1 ? "" : "s"}.`, "#166534");
+  setStatus(`Downloaded PDF with ${loadedResponses.length} student response set${loadedResponses.length === 1 ? "" : "s"}.`, "#166534");
 }
 
 async function loadResponses() {
   if (pdfButton) pdfButton.disabled = true;
   try {
+    const session = await requireRole(["teacher", "superadmin"]);
+    renderAuthBar("authBar", session.user, session.role);
+
     setStatus("Loading Firebase config...", "#1d4ed8");
     const configModule = await withTimeout(
       import("./firebase-config.js"),
       8000,
-      "Could not load firebase-config.js. Make sure it has been uploaded beside summaries.html."
+      "Could not load firebase-config.js."
     );
 
     const { firebaseConfig, collectionName } = configModule;
     if (!firebaseConfig || !collectionName) {
       throw new Error("firebase-config.js must export firebaseConfig and collectionName.");
     }
-
     if (configLooksIncomplete(firebaseConfig)) {
       throw new Error("firebase-config.js still contains placeholder or blank values.");
     }
 
     setStatus("Loading Firebase libraries...", "#1d4ed8");
-    const appModule = await import("https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js");
     const firestoreModule = await import("https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js");
 
-    const app = appModule.getApps().length ? appModule.getApp() : appModule.initializeApp(firebaseConfig);
-    const db = firestoreModule.getFirestore(app);
-
-    setStatus(`Connecting to Firestore collection "${collectionName}"...`, "#1d4ed8");
+    const db = firestoreModule.getFirestore((await import("./auth-utils.js")).app);
     await withTimeout(
       firestoreModule.enableNetwork(db),
       8000,
@@ -289,7 +278,7 @@ async function loadResponses() {
       firestoreModule.orderBy("submittedAt", "desc")
     );
 
-    setStatus("Reading group submissions from Firestore...", "#1d4ed8");
+    setStatus("Reading student submissions from Firestore...", "#1d4ed8");
     const snapshot = await withTimeout(
       firestoreModule.getDocs(q),
       12000,
@@ -301,17 +290,17 @@ async function loadResponses() {
       .filter((response) => !response.testDocument);
 
     if (loadedResponses.length === 0) {
-      container.innerHTML = '<p class="empty-message">Firebase is connected, but no group responses have been submitted yet.</p>';
-      setStatus("No group responses found yet. Submit at least one group response first.", "#b91c1c");
+      container.innerHTML = '<p class="empty-message">Firebase is connected, but no student responses have been submitted yet.</p>';
+      setStatus("No student responses found yet.", "#b91c1c");
       return;
     }
 
     container.innerHTML = loadedResponses.map(renderResponse).join("");
     if (pdfButton) pdfButton.disabled = false;
-    setStatus(`${loadedResponses.length} group submission${loadedResponses.length === 1 ? "" : "s"} loaded. PDF download is ready.`, "#166534");
+    setStatus(`${loadedResponses.length} student response set${loadedResponses.length === 1 ? "" : "s"} loaded. PDF download is ready.`, "#166534");
   } catch (error) {
     console.error(error);
-    showError("Could not load class responses", error.message);
+    showError("Could not load student responses", error.message);
   }
 }
 

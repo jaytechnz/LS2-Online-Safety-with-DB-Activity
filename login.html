@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CGA Login - Online Safety and Privacy</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="login.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <h1>CGA Login</h1>
+    <p>Online Safety and Privacy Activities</p>
+  </header>
+
+  <main>
+    <section class="teacher-note auth-panel">
+      <h2>Sign in with your CGA email</h2>
+      <p>Students use <strong>firstname.lastname@student.cga.school</strong>. Teachers use <strong>initial.lastname@cga.school</strong>.</p>
+
+      <form id="loginForm" class="auth-form">
+        <label for="email"><strong>Email</strong></label>
+        <input type="email" id="email" autocomplete="email" placeholder="firstname.lastname@student.cga.school" required>
+
+        <label for="password"><strong>Password</strong></label>
+        <input type="password" id="password" autocomplete="current-password" placeholder="Enter your password" required>
+
+        <div class="button-row">
+          <button type="submit" id="signInButton">Sign in</button>
+          <button type="button" class="secondary" id="createAccountButton">Create account</button>
+          <a class="button secondary" href="index.html">Back home</a>
+        </div>
+
+        <p id="loginStatus" class="status-message">Use your CGA email address only.</p>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

@@ -8,3 +8,4 @@ export const firebaseConfig = {
 };
 
 export const collectionName = "onlineSafetyCaseStudyResponses";
+export const superAdminEmail = "j.smith@cga.school";

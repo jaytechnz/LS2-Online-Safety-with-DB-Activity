@@ -211,3 +211,9 @@ button:disabled { background: #94a3b8; cursor: not-allowed; }
     grid-template-columns: 1fr;
   }
 }
+
+.auth-panel { max-width: 720px; margin-inline: auto; }
+.auth-form { display: grid; gap: 10px; }
+.auth-form input { width: 100%; }
+.auth-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-left: 8px solid #0f766e; }
+.auth-bar span { color: #334155; }
