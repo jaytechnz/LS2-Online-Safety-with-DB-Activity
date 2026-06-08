@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Class Summaries - Online Safety and Privacy</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
   <script type="module" src="summaries.js" defer></script>
 </head>
 <body>
@@ -16,9 +15,10 @@
   <main>
     <section class="teacher-note no-print">
       <h2>Teacher Display Page</h2>
-      <p>This page reads group responses from Firebase Firestore. Use the PDF button to download all loaded group submissions as a PDF.</p>
+      <p>This page reads group responses from Firebase Firestore. When responses have loaded, use the PDF button to download all group submissions as a PDF.</p>
       <div class="button-row">
         <button id="printPdfButton" type="button">Download PDF of all group submissions</button>
+        <button id="reloadResponsesButton" type="button">Reload responses</button>
         <a class="button secondary" href="case-studies.html">Back to Case Studies</a>
         <p id="pdfStatus" class="status-message">Loading submissions before PDF export...</p>
       </div>
