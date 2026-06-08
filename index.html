@@ -1,105 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Online Safety and Privacy Case Studies</title>
-  <link rel="stylesheet" href="styles.css">
-  <script type="module" src="script.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Safety Lab | Online Safety and Privacy</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header class="hero">
-    <h1>Online Safety and Privacy</h1>
-    <p>Small Group Case Study Activity</p>
+  <header class="site-header">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="index.html" aria-label="Safety Lab home">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <span>Safety Lab</span>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-link active" href="index.html">Home</a>
+        <a class="nav-link" href="share.html">Share</a>
+        <a class="nav-link" href="passwords.html">Passwords</a>
+        <a class="nav-link" href="scenarios.html">Scenarios</a>
+        <a class="nav-link" href="toolkit.html">Toolkit</a>
+        <a class="nav-link" href="case-studies.html">Case Studies</a>
+        <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="true">Sound on</button>
+      </div>
+    </nav>
   </header>
 
   <main>
-    <section class="teacher-note">
-      <h2>Instructions</h2>
-      <p>Work in a small group. Read each case study, discuss the questions, and type your group answers into the text boxes.</p>
-      <p>Complete all three case studies on this page, then select <strong>Submit Group Responses</strong>.</p>
-    </section>
-
-    <section class="group-details">
-      <label for="groupName"><strong>Group name:</strong></label>
-      <input type="text" id="groupName" placeholder="e.g. Group 1, Blue Team, Table 3">
-    </section>
-
-    <form id="caseStudyForm">
-      <article class="case-card blue">
-        <h2>Case Study 1: The Free Game Coins</h2>
-        <p>Maya enjoys playing an online game with classmates. While she is playing, a player she does not know sends her a private message.</p>
-        <blockquote>“Hi Maya! I can give you free game coins. Click this website and log in with your game username and password. Don’t tell anyone because this is a secret offer.”</blockquote>
-
-        <div class="question-grid">
-          <div class="question-box">
-            <label for="case1q1"><strong>1. What warning signs can you spot?</strong></label>
-            <textarea id="case1q1" placeholder="Type your group’s answer here..."></textarea>
-          </div>
-
-          <div class="question-box">
-            <label for="case1q2"><strong>2. What private information is being asked for?</strong></label>
-            <textarea id="case1q2" placeholder="Type your group’s answer here..."></textarea>
-          </div>
-
-          <div class="question-box">
-            <label for="case1q3"><strong>3. What should Maya do next?</strong></label>
-            <textarea id="case1q3" placeholder="Type your group’s answer here..."></textarea>
-          </div>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">Online Safety and Privacy</p>
+        <h1>Think before you tap.</h1>
+        <p>Explore what is safe to share, test password strength, and practise calm choices for messages, friend requests, and websites that ask too much.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="share.html">Start activity</a>
+          <a class="button" href="toolkit.html">Open toolkit</a>
         </div>
-      </article>
-
-      <article class="case-card green">
-        <h2>Case Study 2: The Class Collaboration File</h2>
-        <p>A class is working on a shared online document for a school project. One student accidentally posts a screenshot that shows another student’s full name, email address, and a private comment from the teacher.</p>
-
-        <div class="question-grid">
-          <div class="question-box">
-            <label for="case2q1"><strong>1. Why might this be a privacy problem?</strong></label>
-            <textarea id="case2q1" placeholder="Type your group’s answer here..."></textarea>
-          </div>
-
-          <div class="question-box">
-            <label for="case2q2"><strong>2. What should the student do after noticing the mistake?</strong></label>
-            <textarea id="case2q2" placeholder="Type your group’s answer here..."></textarea>
-          </div>
-
-          <div class="question-box">
-            <label for="case2q3"><strong>3. How could the class avoid this happening again?</strong></label>
-            <textarea id="case2q3" placeholder="Type your group’s answer here..."></textarea>
-          </div>
-        </div>
-      </article>
-
-      <article class="case-card orange">
-        <h2>Case Study 3: The New Homework App</h2>
-        <p>Noah finds a website that says it can help organise homework. Before he can use it, the website asks for his full name, date of birth, school name, home address, phone number, and permission to send notifications.</p>
-
-        <div class="question-grid">
-          <div class="question-box">
-            <label for="case3q1"><strong>1. Which information is unnecessary or too private?</strong></label>
-            <textarea id="case3q1" placeholder="Type your group’s answer here..."></textarea>
-          </div>
-
-          <div class="question-box">
-            <label for="case3q2"><strong>2. What could Noah do before signing up?</strong></label>
-            <textarea id="case3q2" placeholder="Type your group’s answer here..."></textarea>
-          </div>
-
-          <div class="question-box">
-            <label for="case3q3"><strong>3. What makes a website or app safer to use?</strong></label>
-            <textarea id="case3q3" placeholder="Type your group’s answer here..."></textarea>
-          </div>
-        </div>
-      </article>
-
-      <div class="button-row">
-        <button type="submit" id="submitButton">Submit Group Responses</button>
-        <a class="button secondary" href="summaries.html">View Class Summaries</a>
-        <button type="button" class="danger" id="clearThisGroup">Clear This Page</button>
       </div>
+      <div class="hero-art">
+        <img src="assets/online-safety-hero.png" alt="Students learning about digital privacy with a glowing shield and lock.">
+      </div>
+    </section>
 
-      <p id="statusMessage" class="status-message"></p>
-    </form>
+    <section class="section">
+      <div class="wrap">
+        <div class="section-header">
+          <div>
+            <h2>Choose a challenge</h2>
+            <p>Each page gives students immediate feedback, short explanations, and simple sounds for clicks, correct choices, and risky choices.</p>
+          </div>
+        </div>
+
+        <div class="tool-grid">
+          <a class="activity-card" href="share.html">
+            <span class="card-number">01</span>
+            <h3>Safe to Share?</h3>
+            <p>Sort personal information as safe, depends, or not safe to post publicly.</p>
+          </a>
+          <a class="activity-card" href="passwords.html">
+            <span class="card-number">02</span>
+            <h3>Password Challenge</h3>
+            <p>Rank example passwords and test a pretend password idea.</p>
+          </a>
+          <a class="activity-card" href="scenarios.html">
+            <span class="card-number">03</span>
+            <h3>What Would You Do?</h3>
+            <p>Make decisions in realistic online safety situations.</p>
+          </a>
+          <a class="activity-card" href="toolkit.html">
+            <span class="card-number">04</span>
+            <h3>Privacy Toolkit</h3>
+            <p>Practise settings checks, scam spotting, and a personal pause plan.</p>
+          </a>
+                  <a class="activity-card" href="case-studies.html">
+            <span class="card-number">05</span>
+            <h3>Case Studies</h3>
+            <p>Work in groups, submit responses, and view class summaries with Firebase.</p>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <strong>Safety Lab</strong>
+      <p>Pause, check, ask, then act.</p>
+    </div>
+  </footer>
+
+  <script src="scripts/app.js"></script>
 </body>
 </html>
