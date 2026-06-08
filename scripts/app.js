@@ -438,7 +438,84 @@ function initToolkit() {
   });
 }
 
+function initVideoActivity() {
+  if (!$("#videoChecklist")) return;
+  const completed = new Set();
+
+  function updateScore() {
+    $("#videoScore").textContent = completed.size;
+    if (completed.size === 3) sound.play("complete");
+  }
+
+  function setVideoFeedback(title, message, state) {
+    const feedback = $("#videoFeedback");
+    feedback.classList.remove("correct", "incorrect");
+    if (state) feedback.classList.add(state);
+    feedback.innerHTML = `<h3>${title}</h3><p>${message}</p>`;
+  }
+
+  function checkChecklist() {
+    const selected = $$("#videoChecklist .chip.found");
+    const correctSelected = selected.filter((chip) => chip.dataset.correct === "true").length;
+    const riskySelected = selected.some((chip) => chip.dataset.correct === "false");
+    const complete = correctSelected === 3 && !riskySelected;
+    const feedback = $("#videoChecklistFeedback");
+    feedback.classList.remove("correct", "incorrect");
+    feedback.classList.add(complete ? "correct" : "incorrect");
+    feedback.textContent = complete
+      ? "Good spotting. Those are the key safety ideas from the video."
+      : `${correctSelected}/3 helpful ideas selected. Watch out for the unsafe option.`;
+    if (complete) completed.add("checklist");
+    sound.play(complete ? "success" : "error");
+    updateScore();
+  }
+
+  $$("#videoChecklist .chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      chip.classList.toggle("found");
+      checkChecklist();
+    });
+  });
+
+  $$("#videoQuiz .scenario-action").forEach((button) => {
+    button.addEventListener("click", () => {
+      $$("#videoQuiz .scenario-action").forEach((option) => option.classList.remove("selected"));
+      button.classList.add("selected");
+      const correct = button.dataset.correct === "true";
+      const feedback = $("#videoQuizFeedback");
+      feedback.classList.remove("correct", "incorrect");
+      feedback.classList.add(correct ? "correct" : "incorrect");
+      feedback.textContent = correct
+        ? "Correct. Stopping and asking for help protects your information."
+        : "Try again. Acting quickly or spreading the link can make the risk worse.";
+      if (correct) completed.add("quiz");
+      setVideoFeedback(correct ? "Strong decision" : "Slow it down", correct
+        ? "The safest choice is to pause, avoid the link, and check with a trusted adult."
+        : "A suspicious message often tries to make you hurry. Pausing gives you control.", correct ? "correct" : "incorrect");
+      sound.play(correct ? "success" : "error");
+      updateScore();
+    });
+  });
+
+  $("#checkVideoReflection").addEventListener("click", () => {
+    const response = $("#videoReflection").value.toLowerCase();
+    const hasAction = /(stop|ask|block|report|close|tell|check)/.test(response);
+    const hasSafetyIdea = /(adult|trusted|private|password|link|unsafe|suspicious|personal)/.test(response);
+    const complete = response.trim().length >= 18 && hasAction && hasSafetyIdea;
+    const feedback = $("#videoReflectionFeedback");
+    feedback.classList.remove("correct", "incorrect");
+    feedback.classList.add(complete ? "correct" : "incorrect");
+    feedback.textContent = complete
+      ? "Good sentence. It includes a clear action and a safety reason."
+      : "Add a clear action and a safety reason. For example: stop, ask a trusted adult, or avoid sharing private details.";
+    if (complete) completed.add("reflection");
+    sound.play(complete ? "success" : "error");
+    updateScore();
+  });
+}
+
 initShare();
 initPasswords();
+initVideoActivity();
 initScenarios();
 initToolkit();
