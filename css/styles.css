@@ -347,6 +347,14 @@ main {
   color: var(--muted);
 }
 
+.card-link-note {
+  display: block;
+  margin-top: 12px;
+  color: var(--blue-dark);
+  font-size: .9rem;
+  font-weight: 800;
+}
+
 .card-number {
   width: 46px;
   height: 38px;
