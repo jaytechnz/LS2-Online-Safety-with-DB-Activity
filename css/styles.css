@@ -969,3 +969,6 @@ body[data-page="toolkit"] .tool-grid {
     justify-content: flex-end;
   }
 }
+
+body.auth-required:not(.auth-ready)::before { content: "Checking login..."; display: block; width: min(720px, calc(100% - 32px)); margin: 80px auto; padding: 24px; background: white; border: 2px solid var(--blue); border-radius: 8px; color: var(--ink); font-weight: 850; text-align: center; box-shadow: 4px 4px 0 var(--ink); }
+body.auth-required:not(.auth-ready) > :not(script) { display: none !important; }
