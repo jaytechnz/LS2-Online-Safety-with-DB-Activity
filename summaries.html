@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="styles.css">
   <script type="module" src="summaries.js" defer></script>
 </head>
-<body>
+<body class="auth-required">
   <header class="hero">
     <h1>Teacher Dashboard</h1>
     <p>Online Safety and Privacy Case Studies</p>
@@ -16,12 +16,11 @@
     <section class="teacher-note auth-bar" id="authBar">Checking teacher sign in...</section>
     <section class="teacher-note no-print">
       <h2>Teacher Display Page</h2>
-      <p>This page reads group responses from Firebase Firestore. When responses have loaded, use the PDF button to download all group submissions as a PDF.</p>
+      <p>This page displays every group response submitted from the Case Studies activity.</p>
       <div class="button-row">
-        <button id="printPdfButton" type="button">Download PDF of all group submissions</button>
         <button id="reloadResponsesButton" type="button">Reload responses</button>
         <a class="button secondary" href="case-studies.html">Back to Case Studies</a>
-        <p id="pdfStatus" class="status-message">Loading submissions before PDF export...</p>
+        <p id="dashboardStatus" class="status-message">Loading dashboard...</p>
       </div>
     </section>
 

@@ -13,15 +13,21 @@ export function getRole(email) {
   return null;
 }
 
+function redirectToLogin() {
+  const page = window.location.pathname.split("/").pop() || "index.html";
+  window.location.href = `login.html?next=${encodeURIComponent(page)}`;
+}
+
 export function requireRole(allowedRoles) {
   return new Promise((resolve) => {
     onAuthStateChanged(auth, (user) => {
       const role = user ? getRole(user.email) : null;
       if (!user || !role || !allowedRoles.includes(role)) {
-        const next = encodeURIComponent(window.location.pathname.split("/").pop() || "index.html");
-        window.location.href = `login.html?next=${next}`;
+        redirectToLogin();
         return;
       }
+
+      document.body.classList.add("auth-ready");
       resolve({ user, role });
     });
   });
